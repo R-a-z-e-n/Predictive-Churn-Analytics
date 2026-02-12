@@ -1,0 +1,21 @@
+-- Last login date per customer
+SELECT customer_id, MAX(login_date) AS last_login
+FROM customer_behavior
+GROUP BY customer_id;
+
+-- Purchase frequency per customer
+SELECT customer_id, COUNT(purchase_id) AS purchase_frequency
+FROM customer_behavior
+GROUP BY customer_id;
+
+-- Average purchase value
+SELECT customer_id, AVG(purchase_amount) AS avg_purchase_value
+FROM customer_behavior
+GROUP BY customer_id;
+
+-- Churn label (example: no login in last 90 days)
+SELECT customer_id,
+       CASE WHEN MAX(login_date) < CURRENT_DATE - INTERVAL '90 days'
+            THEN 1 ELSE 0 END AS churn_flag
+FROM customer_behavior
+GROUP BY customer_id;
